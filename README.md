@@ -38,11 +38,11 @@ Note: All the data of each containers will be permanentally store in the '/volum
 ### At first Launch
 
 * Connect to nexus Server
-  - Create a repository to put the artefact (Ex: com.pokebible)
+* - Create a reporsitory to put the artefact (Ex: com.pokebible)
 * Connect to sonar Server
-  - Create a project (Ex:pokebible) 
+* - Create a project (Ex:pokebible) 
 * Connect to jenkins Server
-  - Create a pipeline in Jenkins and link it to your jenkinsfile on your Github project 
+* - Create a pipeline in Jenkins and link it to your jenkinsfile on your Github project 
 
 
 ### Other commands
