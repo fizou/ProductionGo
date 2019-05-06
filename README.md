@@ -12,12 +12,11 @@
 ## General info
 
 This Docker project build a complete continuous integration environement. 
-When it is up, you can **publish your developpement code** on GitHub and **your users will see the result automatically**, some minutes after on an Internet via a www.domain.com Url  
+When it is up, you can **publish your developpement code** on GitHub and **your users will see application automatically updated**, some minutes after on an Internet Url    
 
-         `USER -> serveo -> nginx -> tomcat <- nexus <- sonar <- jenkins <- github <- DEVELOPPER`
+     `DEVELOPPER -> github -> jenkins -> sonar -> nexus -> tomcat <- nginx <- serveo <- USER`
 
-
-| Container | port | Comments
+| Component | Port | Comments
 | --------- | ---- | ---------------------------------------------------------------------------- |
 | jenkins   | 8080 | Orchestrator to build, control and deploy application |
 | sonar     | 9000 | Control the quality of application artifact |
@@ -31,15 +30,21 @@ Note: Need also, a github application which contains the source of your applicat
 
 ## Setup
 
+### Launch command
+
 $ docker-compose up --force-recreate 
 
+Note: All the permanent Data of each component will be store in the '/volumes' repository
 
-## Other information
+
+### At first Launch
 
 * Create a pipeline in Jenkins and link it to your jenkinsfile in your GIThub Project 
 * Create a reporsitory in sonar to put the artefact 
 
 
-### Commands
+### Other commands
+
+* To restart serveo only (after a shutdown/sleep of your computer) 
 
 $ docker-compose restart serveo
