@@ -5,7 +5,7 @@ services:
     image: jenkins/jenkins
     container_name: jenkins
     volumes:
-      - "./vol/jenkins:/var/jenkins_home"
+      - "./volumes/jenkins:/var/jenkins_home"
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -16,8 +16,8 @@ services:
     image: sonarqube
     container_name: sonar
     volumes:
-      - "./vol/sonar/data:/opt/sonarqube/data"
-      - "./vol/sonar/logs:/opt/sonarqube/logs"
+      - "./volumes/sonar/data:/opt/sonarqube/data"
+      - "./volumes/sonar/logs:/opt/sonarqube/logs"
     ports:
       - "9000:9000"
     networks:
@@ -27,7 +27,7 @@ services:
     image: sonatype/nexus3
     container_name: nexus
     volumes:
-      - "./vol/nexus:/nexus-data"
+      - "./volumes/nexus:/nexus-data"
     ports:
       - "8081:8081"
     networks:
@@ -37,9 +37,9 @@ services:
     image: tomcat
     container_name: tomcat
     volumes:
-      - "./vol/tomcat/logs:/usr/local/tomcat/logs"
-      - "./vol/tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml"
-      - "./vol/tomcat/conf/Catalina:/usr/local/tomcat/conf/Catalina"
+      - "./volumes/tomcat/logs:/usr/local/tomcat/logs"
+      - "./volumes/tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml"
+      - "./volumes/tomcat/conf/Catalina:/usr/local/tomcat/conf/Catalina"
     ports:
       - "8083:8080"
     networks:
@@ -49,10 +49,10 @@ services:
     image: nginx:latest
     container_name: nginx
     volumes:
-      - "./vol/nginx/html:/usr/share/nginx/html"
-      - "./vol/nginx/etc/nginx.conf:/etc/nginx/nginx.conf"
-      - "./vol/nginx/etc/conf.d:/etc/nginx/conf.d"
-      - "./vol/nginx/log:/var/log/nginx"
+      - "./volumes/nginx/html:/usr/share/nginx/html"
+      - "./volumes/nginx/etc/nginx.conf:/etc/nginx/nginx.conf"
+      - "./volumes/nginx/etc/conf.d:/etc/nginx/conf.d"
+      - "./volumes/nginx/log:/var/log/nginx"
     ports:
       - "8084:80"
     networks:
