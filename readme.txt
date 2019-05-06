@@ -28,15 +28,15 @@ docker stats
 
 docker network create pgnetwork
 
-docker run -d --name jenkins --net pgnetwork -p 8080:8080 -p 50000:50000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\jenkins:/var/jenkins_home jenkins/jenkins
+docker run -d --name jenkins --net pgnetwork -p 8080:8080 -p 50000:50000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\jenkins:/var/jenkins_home jenkins/jenkins
 
-docker run -d --name nexus --net pgnetwork -p 8081:8081 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nexus:/nexus-data sonatype/nexus3
+docker run -d --name nexus --net pgnetwork -p 8081:8081 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nexus:/nexus-data sonatype/nexus3
 
-docker run -d --name sonar --net pgnetwork -p 9000:9000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\sonar\data:/opt/sonarqube/data -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\sonar\logs:/opt/sonarqube/logs sonarqube
+docker run -d --name sonar --net pgnetwork -p 9000:9000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\sonar\data:/opt/sonarqube/data -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\sonar\logs:/opt/sonarqube/logs sonarqube
 
-docker run -d --name tomcat --net pgnetwork -p 8083:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat\conf\tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat\conf\Catalina:/usr/local/tomcat/conf/Catalina -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat\logs:/usr/local/tomcat/logs tomcat
+docker run -d --name tomcat --net pgnetwork -p 8083:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat\conf\tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat\conf\Catalina:/usr/local/tomcat/conf/Catalina -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat\logs:/usr/local/tomcat/logs tomcat
 
-docker run -d --name nginx --net pgnetwork -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\html:/usr/share/nginx/html -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\etc\nginx.conf:/etc/nginx/nginx.conf -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\etc\conf.d:/etc/nginx/conf.d -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\log:/var/log/nginx nginx
+docker run -d --name nginx --net pgnetwork -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\html:/usr/share/nginx/html -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\etc\nginx.conf:/etc/nginx/nginx.conf -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\etc\conf.d:/etc/nginx/conf.d -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\log:/var/log/nginx nginx
 
 docker run -it --name serveo --net pgnetwork alpinewithopenssh /bin/sh -c "ssh -R 80:nginx:80 -o 'StrictHostKeyChecking no' serveo.net"
 
@@ -85,7 +85,7 @@ sh test123 or bash test123 -x or ./test123 or test123
 
 Advanced :
 Run With Volume : docker run -it -v C:\:/vol ubuntu /bin/bash
-docker run -it -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol:/vol ubuntu /bin/bash
+docker run -it -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes:/vol ubuntu /bin/bash
 
 manuelement:  "export PATH=$PATH:/vol;cd /vol;chmod 777 test123;test123" 
 
@@ -98,7 +98,7 @@ RUN apt-get update && \
 
 docker build -t productiongomaster:latest .
 docker run -it productiongomaster:latest /bin/bash
-docker run -it -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol:/vol productiongomaster:latest /bin/bash
+docker run -it -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes:/vol productiongomaster:latest /bin/bash
 
 ** to set up docker-compose 
 
@@ -124,7 +124,7 @@ admin 9bce9de30b354793abc89b3756bf2d79 (ne pas mettre -d pour l'obtenir c'est da
 http://localhost:49001/
 http://2997be36.ngrok.io/
 docker run -p 49001:8080 jenkins/jenkins
-docker run -p 49001:8080 -p 50000:50000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\jenkins:/var/jenkins_home jenkins/jenkins
+docker run -p 49001:8080 -p 50000:50000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\jenkins:/var/jenkins_home jenkins/jenkins
 
 ** To Set github  :
 Manage Jenkins / Configure Credentials : add Username and password AND secretkey
@@ -152,7 +152,7 @@ Manage Jenkins / Configure system : Add docker label =
 ** to setup NEXUS:
 
 docker run -d -p 8081:8081 --name nexus sonatype/nexus3
-docker run -d -p 8081:8081 --name nexus -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nexus:/nexus-data sonatype/nexus3
+docker run -d -p 8081:8081 --name nexus -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nexus:/nexus-data sonatype/nexus3
 
 admin / admin123
 172.17.0.3
@@ -175,24 +175,24 @@ docker run --net <network name> busybox ping test
 ** to setup tomcat 
 
 docker run -it --name tomcat -p 8080:8080 tomcat
-docker run -it -p 8080:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\jenkins\.m2\repository\com\pokebible\pokebible\1.0.9-SNAPSHOT\pokebible-1.0.9-SNAPSHOT.war:/usr/local/tomcat/webapps/pokebible.war tomcat
+docker run -it -p 8080:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\jenkins\.m2\repository\com\pokebible\pokebible\1.0.9-SNAPSHOT\pokebible-1.0.9-SNAPSHOT.war:/usr/local/tomcat/webapps/pokebible.war tomcat
 
 docker run -it -p 8080:8080 -v D:\Users\olfize\Documents\Programmation\NetBeansProjects\pokebible\target\pokebible-1.0.9-SNAPSHOT.war:/usr/local/tomcat/webapps/pokebible.war tomcat
 docker run -it -p 8080:8080 -v D:\Users\olfize\Documents\Programmation\NetBeansProjects\pokebible\target\pokebible-1.0.9-SNAPSHOT.war:/usr/local/tomcat/webapps/ROOT.war -v D:\Users\olfize\Documents\Programmation\NetBeansProjects\pokebible\target:/usr/local/tomcat/webapps/ROOT tomcat
 
-docker run -it -p 8080:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\jenkins\workspace\Pipe_Line_Build_Pokebible_master\target\pokebible-1.0.9-SNAPSHOT.war:/usr/local/tomcat/webapps/pokebible.war tomcat
+docker run -it -p 8080:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\jenkins\workspace\Pipe_Line_Build_Pokebible_master\target\pokebible-1.0.9-SNAPSHOT.war:/usr/local/tomcat/webapps/pokebible.war tomcat
 
-docker run -it -p 8083:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat:/usr/local/tomcat tomcat
+docker run -it -p 8083:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat:/usr/local/tomcat tomcat
 
 ne marche pas:
-docker volume create --name tomcat-data -o type=none -o device=D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat -o o=bind
+docker volume create --name tomcat-data -o type=none -o device=D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat -o o=bind
 docker run -ti --rm -p 8888:8080 -v tomcat-data:/usr/local/tomcat/ tomcat
 
 ** To set up tomcat
-docker run -it --name tomcat --net pgnetwork -p 8083:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat\conf\tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat\conf\Catalina:/usr/local/tomcat/conf/Catalina -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat\logs:/usr/local/tomcat/logs tomcat
+docker run -it --name tomcat --net pgnetwork -p 8083:8080 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat\conf\tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat\conf\Catalina:/usr/local/tomcat/conf/Catalina -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat\logs:/usr/local/tomcat/logs tomcat
 
 
--v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\tomcat\webapps:/usr/local/tomcat/webapps tomcat
+-v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\tomcat\webapps:/usr/local/tomcat/webapps tomcat
 
 tomcat-users.xml
 
@@ -213,7 +213,7 @@ docker run -d --name sonar -p 9000:9000 sonarqube
 
 token project test : d9660ad575c4f859e0bc1ad323fe031f09d1da4e
 
-docker run -d --name sonarqube -p 9000:9000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\sonar\data:/opt/sonarqube/data -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\sonar\logs:/opt/sonarqube/logs -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\sonar\extensions:/opt/sonarqube/extensions sonarqube
+docker run -d --name sonarqube -p 9000:9000 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\sonar\data:/opt/sonarqube/data -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\sonar\logs:/opt/sonarqube/logs -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\sonar\extensions:/opt/sonarqube/extensions sonarqube
 
 
                <goal>sonar:sonar</goal>
@@ -226,9 +226,9 @@ docker run -d --name sonarqube -p 9000:9000 -v D:\Users\olfize\Documents\Program
 
 ** to setup nginx
 docker run --name mynginx1 -p 8084:80 nginx
-docker run --name mynginx2 -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\html:/usr/share/nginx/html nginx
-docker run --name mynginx3 -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\html:/usr/share/nginx/html -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\etc\nginx.conf:/etc/nginx/nginx.conf -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\etc\conf.d:/etc/nginx/conf.d nginx
-docker run --name mynginx4 -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\html:/usr/share/nginx/html -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\etc\nginx.conf:/etc/nginx/nginx.conf -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\etc\conf.d:/etc/nginx/conf.d -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\vol\nginx\log:/var/log/nginx nginx
+docker run --name mynginx2 -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\html:/usr/share/nginx/html nginx
+docker run --name mynginx3 -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\html:/usr/share/nginx/html -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\etc\nginx.conf:/etc/nginx/nginx.conf -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\etc\conf.d:/etc/nginx/conf.d nginx
+docker run --name mynginx4 -p 8084:80 -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\html:/usr/share/nginx/html -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\etc\nginx.conf:/etc/nginx/nginx.conf -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\etc\conf.d:/etc/nginx/conf.d -v D:\Users\olfize\Documents\Programmation\docker\ProductionGo\volumes\nginx\log:/var/log/nginx nginx
 
 /var/log/nginx
 
